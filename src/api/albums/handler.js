@@ -7,8 +7,8 @@ class AlbumsHandler {
 
     // Agar this nya merujuk pada instance dari NotesService bukan object route
     this.postAlbumHandler = this.postAlbumHandler.bind(this);
-    this.getSAlbumByIdHandler = this.getSAlbumByIdHandler.bind(this);
-    this.putSAlbumByIdHandler = this.putSAlbumByIdHandler.bind(this);
+    this.getAlbumByIdHandler = this.getAlbumByIdHandler.bind(this);
+    this.putAlbumByIdHandler = this.putAlbumByIdHandler.bind(this);
     this.deleteAlbumByIdHandler = this.deleteAlbumByIdHandler.bind(this);
   }
 
@@ -53,7 +53,7 @@ class AlbumsHandler {
     }
   }
 
-  async getSAlbumByIdHandler(request, h) {
+  async getAlbumByIdHandler(request, h) {
     try {
       const { id } = request.params;
       const album = await this._service.getAlbumById(id);
@@ -85,7 +85,7 @@ class AlbumsHandler {
     }
   }
 
-  async putSAlbumByIdHandler(request, h) {
+  async putAlbumByIdHandler(request, h) {
     try {
       this._validator.validateAlbumPayload(request.payload);
       const { id } = request.params;
