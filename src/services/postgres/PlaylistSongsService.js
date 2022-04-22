@@ -1,6 +1,6 @@
 const { nanoid } = require('nanoid');
 const { Pool } = require('pg');
-const InvariantError = require('../../exceptions/InvariantError');
+// const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 const AuthorizationError = require('../../exceptions/AuthorizationError');
 const { mapDBToModel } = require('../../utils');
@@ -25,18 +25,12 @@ class PlaylistSongsService {
     const result = await this._pool.query(query);
 
     if (!result.rows[0].id) {
-      throw new InvariantError('Playlist Lagu gagal ditambahkan');
+      throw new NotFoundError('Playlist Lagu gagal ditambahkan');
     }
 
     return result.rows[0].id;
   }
 
-  /*
-  async getPlaylists() {
-    const playlists = await this._pool.query('SELECT id, name, owner FROM playlists');
-    return playlists.rows;
-  }
-*/
   async getPlaylistSongs(id) {
     const query = {
       text: `SELECT playlists.id, playlists.name, users.username FROM playlists
@@ -102,6 +96,18 @@ class PlaylistSongsService {
     };
     const result = await this._pool.query(query);
     return result.rows;
+  }
+
+  async verifySongId(id) {
+    const query = {
+      text: 'select * from songs where id = $1',
+      values: [id],
+    };
+
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw new NotFoundError(' not found');
+    }
   }
 }
 
