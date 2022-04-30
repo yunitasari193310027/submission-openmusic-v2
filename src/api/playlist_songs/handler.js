@@ -1,12 +1,14 @@
+/* eslint-disable max-len */
 const ClientError = require('../../exceptions/ClientError');
 // const InvariantError = require('../../exceptions/InvariantError');
 // const NotFoundError = require('../../exceptions/NotFoundError');
 
 class PlaylistSongsHandler {
-  constructor(playlistSongsService, songsService, playlistsService, validator) {
+  constructor(playlistSongsService, songsService, playlistsService, collaborationsService, validator) {
     this._playlistSongsService = playlistSongsService;
     this._songsService = songsService;
     this._playlistsService = playlistsService;
+    this._collaborationsService = collaborationsService;
     this._validator = validator;
 
     this.postPlaylistSongHandler = this.postPlaylistSongHandler.bind(this);
