@@ -10,7 +10,18 @@ class PlaylistSongsService {
     this._pool = new Pool();
   }
 
-  async addPlaylistSong(songId, playlistId) {
+  async addPlaylistSong({ id: playlistId, songId }) {
+    const querycekSong = {
+      text: 'SELECT * FROM playlist_songs WHERE playlist_id = $1 AND song_id = $2',
+      values: [
+        songId,
+      ],
+    };
+    const Song = await this._pool.query(querycekSong);
+
+    if (!Song.rows.length) {
+      throw new NotFoundError('Lagu tidak ditemukan');
+    }
     const id = `playlistsong-${nanoid(16)}`;
 
     const query = {
@@ -31,20 +42,6 @@ class PlaylistSongsService {
     return result.rows[0].id;
   }
 
-  /*
-  async getPlaylistSongs(id) {
-    const query = {
-      text: `SELECT playlists.id, playlists.name, users.username FROM playlists
-      LEFT JOIN users ON playlists.owner = users.id
-      WHERE playlists.owner = $1
-      GROUP BY playlists.id, users.username`,
-      values: [id],
-    };
-
-    const result = await this._pool.query(query);
-    return result.rows.map(mapDBToModel);
-  }
-*/
   async getPlaylistSongs(id) {
     const query1 = {
       text: `SELECT playlists.id, playlists.name, users.username FROM playlists
@@ -133,10 +130,10 @@ class PlaylistSongsService {
     return result.rows;
   }
 
-  async verifySongId(id) {
+  async verifySongId(playlist_id, song_id) {
     const query = {
-      text: 'select * from songs where id = $1',
-      values: [id],
+      text: 'SELECT * FROM playlist_songs WHERE playlist_id = $1 AND song_id = $2',
+      values: [playlist_id, song_id],
     };
 
     const result = await this._pool.query(query);
