@@ -4,6 +4,9 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
+  // untuk menghindari duplikasi
+  pgm.addConstraint('collaborations', 'unique_playlist_id_and_user_id', 'UNIQUE(playlist_id, user_id)');
+
   // memberikan constraint foreign key pada owner terhadap kolom id dari tabel users
   pgm.addConstraint('collaborations', 'fk_collaborations.playlist_id_playlists.id', 'FOREIGN KEY(playlist_id) REFERENCES playlists(id) ON DELETE CASCADE');
 

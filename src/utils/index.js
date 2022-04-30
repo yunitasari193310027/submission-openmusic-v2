@@ -13,6 +13,7 @@ const mapDBToModel = ({
   username,
   owner,
   playlist_id,
+  user_id,
 }) => ({
   id,
   title,
@@ -28,6 +29,7 @@ const mapDBToModel = ({
   username,
   owner,
   playlistId: playlist_id,
+  userId: user_id,
 });
 
 module.exports = { mapDBToModel };
