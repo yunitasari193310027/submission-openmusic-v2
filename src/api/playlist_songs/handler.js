@@ -67,7 +67,7 @@ class PlaylistSongsHandler {
       // console.log(`songId: ${songId} and playlistId: ${playlistId}`);
       await this._service.verifyPlaylistAccess(playlistId, credentialId);
 
-      await this._service.addSongToPlaylist(playlistId, songId);
+      await this._service.addPlaylistSong(playlistId, songId);
       const response = h.response({
         status: 'success',
         message: 'Lagu berhasil ditambahkan di playlist',

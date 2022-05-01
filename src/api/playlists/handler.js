@@ -127,10 +127,9 @@ class PlaylistsHandler {
       const { songId } = request.payload;
       const { id: credentialId } = request.auth.credentials;
 
-      // console.log(`songId: ${songId} and playlistId: ${playlistId}`);
       await this._service.verifyPlaylistAccess(playlistId, credentialId);
 
-      await this._service.addSongToPlaylist(playlistId, songId);
+      await this._service.addPlaylistSong({ playlistId, songId });
       const response = h.response({
         status: 'success',
         message: 'Lagu berhasil ditambahkan di playlist',
@@ -201,7 +200,7 @@ class PlaylistsHandler {
       const { id: credentialId } = request.auth.credentials;
 
       await this._service.verifyPlaylistOwner(playlistId, songId, credentialId);
-      await this._service.deletePlaylistById(id);
+      await this._service.deletePlaylistSongById(id);
       return {
         status: 'success',
         message: 'Lagu Playlist berhasil dihapus',
