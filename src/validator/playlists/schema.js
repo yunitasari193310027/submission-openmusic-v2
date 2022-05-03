@@ -6,7 +6,7 @@ const PlaylistPayloadSchema = Joi.object({
 });
 
 const PlaylistSongPayloadSchema = Joi.object({
-  playlistId: Joi.string().required(),
+  // playlistId: Joi.string().required(),
   songId: Joi.string().required(),
 });
 

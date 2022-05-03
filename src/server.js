@@ -121,6 +121,7 @@ const init = async () => {
         service: playlistsService,
         collaborationsService,
         validator: PlaylistsValidator,
+        serviceSong: songsService,
       },
     },
     /*
