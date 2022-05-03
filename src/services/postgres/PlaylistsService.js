@@ -31,12 +31,6 @@ class PlaylistsService {
     return result.rows[0].id;
   }
 
-  /*
-  async getPlaylists() {
-    const playlists = await this._pool.query('SELECT id, name, owner FROM playlists');
-    return playlists.rows;
-  }
-*/
   async getPlaylists(owner) {
     const query = {
       text: `SELECT playlists.id, playlists.name, users.username FROM playlists

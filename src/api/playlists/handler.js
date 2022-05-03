@@ -1,5 +1,4 @@
 const ClientError = require('../../exceptions/ClientError');
-// const NotFoundError = require('../../exceptions/NotFoundError');
 
 class PlaylistsHandler {
   constructor(service, collaborationsService, validator, serviceSong) {
@@ -127,11 +126,9 @@ class PlaylistsHandler {
       this._validator.validatePlaylistSongPayload(request.payload);
       const { id } = request.params;
       const playlistId = id;
-      // const { playlistId, any } = request.params;
-      // if (any !== 'songs') {
-      //   throw new NotFoundError('Resource not found');
-      // }
+
       const { songId } = request.payload;
+
       // validasi song
       await this._serviceSong.getSongById(songId);
 
