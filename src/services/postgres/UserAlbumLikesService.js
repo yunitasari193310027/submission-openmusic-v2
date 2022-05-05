@@ -36,16 +36,14 @@ class UserAlbumLikesService {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new NotFoundError('Gagal Membatalkan Albums. ID tidak ditemukan');
+      throw new NotFoundError('Gagal Membatalkan like Albums. ID tidak ditemukan');
     }
 
-    // const { album_id: albumId } = result.rows[0];
     await this._cacheService.delete(`albumlike:${albumId}`);
   }
 
   async getAlbumsLike(albumId) {
     try {
-      // mendapatkan jumlah like dari cache
       const result = await this._cacheService.get(`albumlike:${albumId}`);
       return [JSON.parse(result), 'cache'];
     } catch (error) {
@@ -56,7 +54,6 @@ class UserAlbumLikesService {
       };
       const result = await this._pool.query(query);
 
-      // Jumlah Like akan disimpan pada cache sebelum fungsi dikembalikan
       await this._cacheService.set(`albumlike:${albumId}`, JSON.stringify(result.rows[0]));
 
       return [result.rows[0], 'no cache'];
@@ -68,7 +65,6 @@ class UserAlbumLikesService {
       text: `SELECT * FROM user_album_likes
       WHERE user_id = $1 AND album_id = $2;`,
       values: [userId, albumId],
-      // values: ['user-XXhFd4PxIF-QMkrP', 'album-snB0obuMVZf_IWst'],
     };
     const result = await this._pool.query(query);
 

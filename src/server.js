@@ -36,17 +36,17 @@ const collaborations = require('./api/collaborations');
 const CollaborationsService = require('./services/postgres/CollaborationsService');
 const CollaborationsValidator = require('./validator/collaborations');
 
-// Exports
+// for xports
 const _exports = require('./api/exports');
 const ProducerService = require('./services/rabbitmq/ProducerService');
 const ExportsValidator = require('./validator/exports');
 
-// uploads
+// for uploads
 const uploads = require('./api/uploads');
 const StorageService = require('./services/storage/StorageService');
 const UploadsValidator = require('./validator/uploads');
 
-// uaseralbumlikes
+// for user_album_likes
 const useralbumlikes = require('./api/useralbumlikes');
 const UserAlbumLikesService = require('./services/postgres/UserAlbumLikesService');
 
@@ -114,9 +114,6 @@ const init = async () => {
       options: {
         service: albumsService,
         validator: AlbumsValidator,
-        // for upload cover album
-        serviceStorage: storageService,
-        validatorUpload: UploadsValidator,
       },
     },
     {

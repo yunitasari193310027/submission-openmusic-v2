@@ -11,19 +11,15 @@ class UserAlbumLikesHandler {
 
   async postUserAlbumLikeHandler(request, h) {
     try {
-      // this._validator.validatePlaylistPayload(request.payload);
       const { id: albumId } = request.params;
       const { id: userId } = request.auth.credentials;
-
-      // cek Album
+      // pengecekan pada albums duls
       await this._albumsService.getAlbumById(albumId);
 
-      const cek = await this._service.verifyAlbumsLike(userId, albumId);
+      const verify = await this._service.verifyAlbumsLike(userId, albumId);
 
-      // const idLike = cek.id;
-
-      if (cek) {
-        await this._service.deleteAlbumsLike(cek, albumId);
+      if (verify) {
+        await this._service.deleteAlbumsLike(verify, albumId);
 
         const response = h.response({
           status: 'success',
@@ -32,13 +28,11 @@ class UserAlbumLikesHandler {
         response.code(201);
         return response;
       }
-
-      // Jika Belum Pernah Like Album: Tambahkan Like
       await this._service.addAlbumsLike(userId, albumId);
 
       const response = h.response({
         status: 'success',
-        message: `Berhasil Like Album ${cek}`,
+        message: `Berhasil Like Album ${verify}`,
       });
       response.code(201);
       return response;
@@ -76,13 +70,6 @@ class UserAlbumLikesHandler {
     }).header('X-Data-Source', jumlahLike[1]);
     response.code(200);
     return response;
-
-    // return {
-    //   status: 'success',
-    //   data: {
-    //     likes,
-    //   },
-    // };
   }
 }
 

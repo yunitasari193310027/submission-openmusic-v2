@@ -10,7 +10,7 @@ class AlbumsService {
     this._pool = new Pool();
   }
 
-  //  tambahkan coverurl
+  //  tambahkan coverurl di albums y gan
   async addAlbum({ name, year }) {
     const id = `album-${nanoid(16)}`;
     const coverUrl = null;
