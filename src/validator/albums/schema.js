@@ -4,6 +4,7 @@ const AlbumPayloadSchema = Joi.object({
   name: Joi.string().required(),
   year: Joi.number().integer().min(1900).max(2030)
     .required(),
+  // cover: Joi.string(),
 });
 
 module.exports = { AlbumPayloadSchema };

@@ -10,15 +10,18 @@ class AlbumsService {
     this._pool = new Pool();
   }
 
+  //  tambahkan coverurl
   async addAlbum({ name, year }) {
     const id = `album-${nanoid(16)}`;
+    const coverUrl = null;
 
     const query = {
-      text: 'INSERT INTO albums VALUES($1, $2, $3) RETURNING id',
+      text: 'INSERT INTO albums VALUES($1, $2, $3, $4) RETURNING id',
       values: [
         id,
         name,
         year,
+        coverUrl,
       ],
     };
 
@@ -33,7 +36,7 @@ class AlbumsService {
 
   async getAlbumById(id) {
     const query = {
-      text: 'SELECT * FROM albums WHERE id = $1',
+      text: 'SELECT* FROM albums WHERE id = $1',
       values: [id],
     };
     const album = await this._pool.query(query);
@@ -74,6 +77,21 @@ class AlbumsService {
       );
     }
   }
+/*
+  async insertCoverToAlbums(albumId, coverUrl) {
+    const query = {
+      text: 'UPDATE albums SET "cover" = $2 WHERE id = $1',
+      values: [albumId, coverUrl],
+    };
+    const result = await this._pool.query(query);
+
+    if (!result.rowCount) {
+      throw new InvariantError('Cover gagal ditambahkan');
+    }
+
+    await this._cacheService.delete(`album:${albumId}`);
+  }
+  */
 }
 
 module.exports = AlbumsService;

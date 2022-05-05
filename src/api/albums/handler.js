@@ -4,12 +4,20 @@ class AlbumsHandler {
   constructor(service, validator) {
     this._service = service;
     this._validator = validator;
-
+    /*
+    // for upload
+    this._serviceStorage = serviceStorage;
+    this._validatorUpload = validatorUpload;
+*/
     // Agar this nya merujuk pada instance dari NotesService bukan object route
     this.postAlbumHandler = this.postAlbumHandler.bind(this);
     this.getAlbumByIdHandler = this.getAlbumByIdHandler.bind(this);
     this.putAlbumByIdHandler = this.putAlbumByIdHandler.bind(this);
     this.deleteAlbumByIdHandler = this.deleteAlbumByIdHandler.bind(this);
+    /*
+    // for upload
+    this.postUploadAlbumCoverHandler = this.postUploadAlbumCoverHandler.bind(this);
+  */
   }
 
   async postAlbumHandler(request, h) {
@@ -57,6 +65,11 @@ class AlbumsHandler {
     try {
       const { id } = request.params;
       const album = await this._service.getAlbumById(id);
+
+      // check not null
+      if (album.coverUrl !== null) {
+        album.coverUrl = `http://${process.env.HOST}:${process.env.PORT}/upload/images/${album.coverUrl}`;
+      }
       return {
         status: 'success',
         message: 'Mendapatkan album berdasarkan id',
@@ -145,6 +158,43 @@ class AlbumsHandler {
       return response;
     }
   }
+/*
+  // for upload
+  async postUploadAlbumCoverHandler(request, h) {
+    try {
+      const { cover } = request.payload;
+      this._validatorUpload.validateImageHeaders(cover.hapi.headers);
+
+      const filename = await this._serviceStorage.writeFile(cover, cover.hapi);
+      const { id } = request.params;
+      const coverUrl = `http://${process.env.HOST}:${process.env.PORT}/upload/file/${filename}`;
+      await this._service.insertCoverToAlbums(id, coverUrl);
+      const response = h.response({
+        status: 'success',
+        message: 'Sampul berhasil diunggah',
+      });
+      response.code(201);
+      return response;
+    } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+
+      const response = h.response({
+        status: 'error',
+        message: 'Maaf, terjadi kegagalan pada server kami',
+      });
+      response.code(500);
+      console.error(error);
+      return response;
+    }
+  }
+  */
 }
 
 module.exports = AlbumsHandler;
