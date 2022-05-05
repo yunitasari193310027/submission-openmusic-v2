@@ -158,43 +158,6 @@ class AlbumsHandler {
       return response;
     }
   }
-/*
-  // for upload
-  async postUploadAlbumCoverHandler(request, h) {
-    try {
-      const { cover } = request.payload;
-      this._validatorUpload.validateImageHeaders(cover.hapi.headers);
-
-      const filename = await this._serviceStorage.writeFile(cover, cover.hapi);
-      const { id } = request.params;
-      const coverUrl = `http://${process.env.HOST}:${process.env.PORT}/upload/file/${filename}`;
-      await this._service.insertCoverToAlbums(id, coverUrl);
-      const response = h.response({
-        status: 'success',
-        message: 'Sampul berhasil diunggah',
-      });
-      response.code(201);
-      return response;
-    } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
-    }
-  }
-  */
 }
 
 module.exports = AlbumsHandler;

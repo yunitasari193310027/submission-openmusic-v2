@@ -14,11 +14,7 @@ const SongsValidator = require('./validator/songs');
 const albums = require('./api/albums');
 const AlbumsService = require('./services/postgres/AlbumsService');
 const AlbumsValidator = require('./validator/albums');
-/*
-// & upload cover albums
-const StorageService = require('./services/storage/StorageService');
-const UploadsValidator = require('./validator/uploads');
-*/
+
 // for users
 const users = require('./api/users');
 const UsersService = require('./services/postgres/UsersService');
@@ -156,7 +152,6 @@ const init = async () => {
         servicePlaylist: playlistsService,
       },
     },
-    // kita matikan dulu uploadnya karena coba gabung di albums
     {
       plugin: uploads,
       options: {

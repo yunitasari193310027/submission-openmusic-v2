@@ -77,21 +77,6 @@ class AlbumsService {
       );
     }
   }
-/*
-  async insertCoverToAlbums(albumId, coverUrl) {
-    const query = {
-      text: 'UPDATE albums SET "cover" = $2 WHERE id = $1',
-      values: [albumId, coverUrl],
-    };
-    const result = await this._pool.query(query);
-
-    if (!result.rowCount) {
-      throw new InvariantError('Cover gagal ditambahkan');
-    }
-
-    await this._cacheService.delete(`album:${albumId}`);
-  }
-  */
 }
 
 module.exports = AlbumsService;
